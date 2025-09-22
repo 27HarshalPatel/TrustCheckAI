@@ -28,7 +28,7 @@ Frameworks/Tools:
 
   -> pandas, NumPy, scikit-learn
 
-  -> matplotlib, seaborn
+    matplotlib, seaborn
 
 Development Environments:
 
