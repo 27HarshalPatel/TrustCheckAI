@@ -230,6 +230,3 @@ gdown.download('https://drive.google.com/uc?id=YOUR_FILE_ID', 'compas.csv', quie
 5. **Intersectionality**: Multiple protected attributes can compound bias effects
 
 ---
-
-**Dataset Version**: As of October 2024  
-**Last Updated**: October 2024
