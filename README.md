@@ -246,11 +246,11 @@ trustcheckai/
 1. Download your dataset
 2. Follow the preprocessing pattern in Section 3
 3. Define protected attributes
-4. Apply the same pipeline (Sections 5-11)
+4. Apply the same pipeline as mentioned above
 
 ### Changing Models
 
-Replace model definitions in Section 7:
+Replace model definitions in above Section :
 
 ```python
 # Example: Switch to XGBoost
