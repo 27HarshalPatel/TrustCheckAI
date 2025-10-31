@@ -269,7 +269,6 @@ model = XGBClassifier(random_state=42)
 | Data Download | ~10s | ~5s | Network-dependent |
 | Preprocessing | ~5s | ~20s | Dataset size dependent |
 | Initial Bias Analysis | ~3s | ~8s | AIF360 computation |
-{ Yet to be implemented }
 | Bias Mitigation | ~5s | ~15s | Reweighing algorithm |
 | Model Training | ~10s | ~30s | Random Forest takes longer |
 | Fairness Evaluation | ~5s | ~10s | Comprehensive metrics |
@@ -334,11 +333,9 @@ This project implements fairness metrics aligned with:
 
 ## 🔮 Future Enhancements
 
-- [ ] Add MIMIC-III healthcare dataset support
 - [ ] Implement real-time bias drift monitoring (NannyML)
 - [ ] Add web-based dashboard (Streamlit/Gradio)
 - [ ] Support for unstructured data (images, text)
-- [ ] API endpoints for model serving
 - [ ] Automated retraining pipelines
 - [ ] Multi-stakeholder feedback integration
 
