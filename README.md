@@ -33,10 +33,7 @@ It provides real-time dashboards, fairness metrics, model explainability (LIME),
 
 ### 🟣 Bias Detection (AIF360)
 - Statistical Parity Difference  
-- Disparate Impact  
-- Equal Opportunity Difference  
-- Equalized Odds  
-- Demographic Parity Ratio   
+- Disparate Impact    
 
 ### 🧠 Explainability (XAI)
 - **LIME** – local explanations per prediction  
