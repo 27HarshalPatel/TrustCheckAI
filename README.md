@@ -142,9 +142,9 @@ Access:
 1. Upload CSV
 2. Select "Protected" Attribute
 3. Select "Target" Attribute
-4. Run fairness analysis  
-5. Train models  
-6. View LIME 
+4. Run "Analyze Dataset" 
+5. View the Bias and Compliance Check Result along with Accuracy in Predicting the Results
+6. View LIME Analyses
 7. Generate PDF  
 8. Monitor in Grafana  
 9. Receive alerts if Accuracy falls below 70%
