@@ -95,15 +95,91 @@ It provides real-time dashboards, fairness metrics, model explainability (LIME),
 ### COMPAS – Criminal Justice  
 ### User Uploaded Structured Dataset
 
+Each dataset includes at least one **protected attribute** such as race, gender, or age that is used for fairness auditing.
 ---
 
 ## 🏗 System Architecture
 
+## 🏗 System Architecture
+
+The high-level architecture of TrustCheckAI is shown below:
+
+```txt
+                   +---------------------------+
+                   |        User (UI)         |
+                   |  • Upload CSV dataset    |
+                   |  • Configure analysis    |
+                   +-------------+------------+
+                                 |
+                                 v
+                     +-----------+-----------+
+                     |  Streamlit Application |
+                     |  • Orchestration       |
+                     |  • UX & controls       |
+                     +-----------+------------+
+                                 |
+         +-----------------------+------------------------+
+         |                        |                        |
+         v                        v                        v
++----------------+     +-----------------------+   +---------------------+
+| Preprocessing  |     | Bias & Fairness       |   | Model Training &    |
+| & Validation   |---->| Analysis (AIF360)     |-->| Evaluation (SKL)    |
+| • Cleaning     |     | • Metrics & thresholds|   | • LR / RF           |
++----------------+     +-----------------------+   +---------------------+
+                                                             |
+                                                             v
+                                              +-----------------------------+
+                                              | Explainability (LIME)       |
+                                              +-----------------------------+
+                                                             |
+                                                             v
+                                              +-----------------------------+
+                                              | Drift Detection (KS)        |
+                                              +-----------------------------+
+                                                             |
+                                                             v
+                                           +-----------------+-----------------+
+                                           | Prometheus Metrics Exporter      |
+                                           | • upload_counter, accuracy_gauge |
+                                           +-----------------+-----------------+
+                                                             |
+                                                             v
+                                     +------------------------+---------------------+
+                                     |          Grafana Dashboards & Alerts        |
+                                     |  • Accuracy / fairness panels               |
+                                     |  • Slack / email alerts                     |
+                                     +----------------------------------------------+
 ```
-User Upload → Preprocessing → AIF360 Bias Detection 
-        → Model Training → LIME → Drift Detection
-        → Prometheus Exporter → Grafana Dashboards & Alerts
-```
+
+**Component summary:**  
+- **Streamlit App** – central controller for data upload, analysis steps, and visualization.  
+- **AIF360 Module** – computes fairness metrics and applies mitigation algorithms.  
+- **Model Training** – trains ML models and logs metrics.  
+- **XAI Module** – generates LIME/SHAP explanations for transparency.  
+- **Drift Detection** – monitors changes in data and predictions over time.  
+- **Prometheus & Grafana** – collect, visualize, and alert on key metrics.
+
+---
+
+## 🧩 Protected Attribute
+
+In TrustCheckAI, the **protected attribute** is a sensitive feature such as **race, gender, age, or ethnicity** that represents groups we want to **protect from unfair treatment**.
+
+Why it is important:
+
+- 📏 **Fairness metrics are defined with respect to protected groups.**  
+  Measures like Statistical Parity Difference, Disparate Impact, and Equal Opportunity compare outcomes between protected and non‑protected groups. Without a protected attribute, these metrics cannot be computed.
+
+- 🧪 **Bias detection requires group-wise comparison.**  
+  By conditioning on the protected attribute, TrustCheckAI can reveal whether the model treats one group systematically worse than another (e.g., lower approval rates or higher false-positive rates).
+
+- 🛡 **Used for auditing, not for discrimination.**  
+  In a responsible workflow, the protected attribute is often **excluded from the model features used for prediction**, but **retained in the evaluation pipeline** so that fairness can be audited post‑hoc.
+
+- 📜 **Regulatory and ethical compliance.**  
+  Many regulations (EEOC, GDPR “special categories”, anti‑discrimination laws) explicitly refer to protected characteristics. Correctly identifying and handling the protected attribute is essential for demonstrating compliance.
+
+TrustCheckAI makes the protected attribute explicit in the UI and in the generated reports so that stakeholders clearly understand **which groups are being evaluated for fairness** and how mitigation affects them.
 
 ---
 
