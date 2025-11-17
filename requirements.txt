@@ -1,0 +1,12 @@
+pandas
+openpyxl
+prometheus-client
+scipy
+reportlab
+scikit-learn
+huggingface-hub==0.19.4
+aif360[AdversarialDebiasing,Reductions,inFairness]
+lime
+matplotlib
+seaborn
+streamlit
