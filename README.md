@@ -100,8 +100,6 @@ Each dataset includes at least one **protected attribute** such as race, gender,
 
 ## 🏗 System Architecture
 
-## 🏗 System Architecture
-
 The high-level architecture of TrustCheckAI is shown below:
 
 ```txt
@@ -155,7 +153,7 @@ The high-level architecture of TrustCheckAI is shown below:
 - **Streamlit App** – central controller for data upload, analysis steps, and visualization.  
 - **AIF360 Module** – computes fairness metrics and applies mitigation algorithms.  
 - **Model Training** – trains ML models and logs metrics.  
-- **XAI Module** – generates LIME/SHAP explanations for transparency.  
+- **XAI Module** – generates LIME explanations for transparency.  
 - **Drift Detection** – monitors changes in data and predictions over time.  
 - **Prometheus & Grafana** – collect, visualize, and alert on key metrics.
 
