@@ -141,7 +141,7 @@ Access:
 ## 🧪 Usage Workflow
 1. Upload CSV
 2. Select "Protected" Attribute
-3. Select "Target" Attribute
+3. Select "Target" Variable
 4. Run "Analyze Dataset" 
 5. View the Bias and Compliance Check Result along with Accuracy in Predicting the Results
 6. View LIME Analyses
