@@ -1,114 +1,198 @@
-# TrustCheckAI - Bias & Compliance Detector (Streamlit Edition)
+# 🚀 TrustCheckAI — Bias and Compliance Detaction Platform
 
-A comprehensive web-based platform for AI fairness evaluation and bias detection, rebuilt with a modern Streamlit and Docker-based architecture for simplified deployment and monitoring. This tool allows users to upload their datasets, analyze them for bias, and receive recommendations for mitigation.
+<p align="center">
+  <img src="./TrustCheckAI-demo.gif" width="650">
+</p>
 
-## 🚀 Quick Start
+TrustCheckAI is an end-to-end bias and compliance auditing, explainability, and model-monitoring platform designed to evaluate bias, mitigate discrimination, explain model decisions, and continuously monitor deployed machine learning systems using Prometheus & Grafana.
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/TrustCheckAI.git
-    cd TrustCheckAI
-    ```
+It provides real-time dashboards, fairness metrics, model explainability (LIME), drift detection, automated PDF reporting, and user feedback collection — all wrapped in a modern Streamlit UI and containerized for seamless deployment.
 
-2.  **Launch the application with Docker Compose:**
-    ```bash
-    docker-compose up --build
-    ```
+---
 
-3.  **Access the application and monitoring tools:**
-    *   **Streamlit App:** `http://localhost:7860`
-    *   **Prometheus:** `http://localhost:9090`
-    *   **Grafana:** `http://localhost:3000`
+## 📑 Table of Contents
+- ✨ Features
+- 🧰 Technical Stack
+- 📚 Supported Datasets
+- 🏗 System Architecture
+- 🔐 Compliance, Fairness & Security
+- 🎨 Human-Centered Design (HCI)
+- ⚙️ Installation & Setup
+- 🧪 Usage Workflow
+- 📊 Prometheus Metrics & Grafana Dashboards
+- 📉 Drift Detection
+- 📘 PDF Report Generation
+- 🎥 Demonstration
+- 🛣 Roadmap
+- 📄 Citations
+- 🤝 Acknowledgements
 
-## Key Features
+---
 
--   **📊 Upload Any Dataset**: Supports CSV or Excel files.
--   **🔍 Bias & Compliance Analysis**: In-depth bias and compliance detection using the AIF360 toolkit. The application calculates metrics like Statistical Parity Difference and Disparate Impact.
--   **🤖 Model Training and Evaluation**: Trains Logistic Regression and Random Forest models on the uploaded data and evaluates their performance.
--   **📈 Integrated Monitoring**: Real-time application monitoring with Prometheus and Grafana. Key metrics include file uploads, analysis requests, and model accuracy.
--   **🐳 Dockerized Deployment**: Easy and consistent deployment with Docker Compose. The entire environment, including the Streamlit application, Prometheus, and Grafana, is containerized.
--   **🎨 Modern UI**: Interactive and user-friendly interface with Streamlit.
--   **📝 User Feedback**: Collects user feedback to improve the application.
--   **📄 PDF Report Generation**: Generates a downloadable PDF report with the bias analysis and model performance metrics.
--   **🧠 LIME for Explainability**: Integrates LIME (Local Interpretable Model-agnostic Explanations) to explain the predictions of the trained models.
--   **🌊 Drift Detection**: Uses the Kolmogorov-Smirnov (KS) test to detect data drift between the training and test datasets.
+## ✨ Features
+
+### 🟣 Bias Detection (AIF360)
+- Statistical Parity Difference  
+- Disparate Impact  
+- Equal Opportunity Difference  
+- Equalized Odds  
+- Demographic Parity Ratio   
+
+### 🧠 Explainability (XAI)
+- **LIME** – local explanations per prediction  
+
+### 📉 Drift Detection
+- Kolmogorov–Smirnov (KS) Test  
+
+### ⚙ Model Training & Evaluation
+- Logistic Regression  
+- Random Forest  
+- 5-fold cross-validation  
+
+### 🔎 Real-Time Monitoring & Alerting
+- Prometheus metric exporter  
+- Grafana dashboards  
+- Automated Slack alerts for accuracy/fairness drift  
+
+### 📄 Automatic PDF Reporting
+- Full bias report  
+- Model performance summary  
+
+### 🖥 Modern Streamlit UI
+- Clean, intuitive layout  
+- File upload, analysis, visualization  
+- User feedback
+
+### 🐳 Fully Containerized
+- Streamlit  
+- Prometheus  
+- Grafana  
+- Docker Compose orchestration  
+
+---
+
+## 🧰 Technical Stack
+
+### ML & Fairness
+- Python 3.9+  
+- Scikit-learn  
+- AIF360  
+- LIME  
+
+### Monitoring & Observability
+- Prometheus  
+- Grafana  
+
+### Frontend
+- Streamlit  
+
+### DevOps
+- Docker  
+- Docker Compose  
+- GitHub  
+
+---
+
+## 📚 Supported Datasets
+
+### COMPAS – Criminal Justice  
+### User Uploaded Structured Dataset
+
+---
+
+## 🏗 System Architecture
+
+```
+User Upload → Preprocessing → AIF360 Bias Detection 
+        → Model Training → LIME → Drift Detection
+        → Prometheus Exporter → Grafana Dashboards & Alerts
+```
+
+---
+
+## 🔐 Compliance, Fairness & Security
+- Regulatory alignment (EEOC, Justice fairness)  
+- Differential privacy  
+- Ethical AI lifecycle tracking  
+- Secure isolated containers  
+
+---
+
+## 🎨 HCI Principles
+- Accessible charts  
+- Colorblind-safe design  
+- Clear fairness/performance separation  
+- Prototyped user flows  
+
+---
+
+## ⚙️ Installation & Setup
+
+```bash
+git clone https://github.com/27HarshalPatel/TrustCheckAI.git
+cd TrustCheckAI
+docker-compose up --build
+```
+
+Access:
+- Streamlit → http://localhost:8501  
+- Prometheus → http://localhost:9090  
+- Grafana → http://localhost:3000  
+
+---
+
+## 🧪 Usage Workflow
+1. Upload CSV  
+2. Run fairness analysis  
+3. Train models  
+4. View LIME 
+5. Generate PDF  
+6. Monitor in Grafana  
+7. Receive alerts if Accuracy falls below 70%
+
+---
+
+## 📊 Prometheus Metrics
+- upload_counter  
+- analysis_counter  
+- accuracy_gauge  
+- feedback_ratings_counter  
+- feedback_comments_counter  
+
+---
+
+## 📉 Drift Detection
+- KS Test 
+
+---
+
+## 📘 PDF Report Generation
+Includes fairness metrics and performance summary.
+
+---
 
 ## 🎥 Demonstration
 
-![TrustCheckAI Demo](./TrustCheckAI-Demo.gif)
+<p align="center">
+  <img src="./TrustCheckAI-demo.gif" width="700">
+</p>
 
+---
 
-## Project Structure
+## 🛣 Roadmap
+- Fairlearn integration  
+- Kubernetes deployment  
+- Extended fairness metrics  
 
-```
-.
-├── Dockerfile
-├── README.md
-├── streamlit_app.py
-├── docker-compose.yml
-├── prometheus.yml
-└── requirements.txt
-```
+---
 
-## Setup Instructions
+## 📄 Citations
+- IBM AIF360  
+- COMPAS Dataset  
 
-### Prerequisites
+---
 
--   Docker
--   Docker Compose
-
-### Installation
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/TrustCheckAI.git
-    cd TrustCheckAI
-    ```
-
-2.  **Build and run the containers:**
-    ```bash
-    docker-compose up --build
-    ```
-
-## Usage
-
-1.  **Open the Streamlit application** in your web browser at `http://localhost:7860`.
-2.  **Upload a dataset** in CSV or Excel format.
-3.  **Select the protected attribute and target variable** from the dropdowns.
-4.  **Click the "Analyze Dataset" button** to view the data preview and analysis results.
-5.  **Download the PDF report** with the bias analysis and model performance metrics.
-6.  **Explore the LIME explanations** for the model's predictions.
-7.  **Provide feedback** in the text area and click "Submit Feedback".
-
-## Monitoring
-
-The application is instrumented with Prometheus to collect key metrics. Grafana can be used to visualize these metrics in a dashboard.
-
-### Prometheus
-
--   **Access the Prometheus UI** at `http://localhost:9090`.
--   **Query for metrics** such as:
-    -   `file_uploads_total`: Total number of uploaded files.
-    -   `analysis_requests_total`: Total number of analysis requests.
-    -   `model_accuracy`: Model accuracy for the last run analysis.
-    -   `feedback_ratings_total`: Total number of feedback ratings.
-    -   `feedback_comments_total`: Total number of feedback comments.
-
-### Grafana
-
-1.  **Access the Grafana UI** at `http://localhost:3000`.
-2.  **Log in** with the default credentials (admin/admin).
-3.  **Add a new data source:**
-    *   Select "Prometheus".
-    *   Set the URL to `http://prometheus:9090`.
-    *   Click "Save & Test".
-4.  **Create a new dashboard** to visualize the Prometheus metrics. You can create panels for each metric to monitor the application's performance and usage.
-
-## Troubleshooting
-
--   **Ensure Docker and Docker Compose are installed correctly.**
--   **Verify that the required ports (7860, 8000, 9090, 3000) are not in use by other applications.**
--   **Check the container logs for any errors:**
-    ```bash
-    docker-compose logs -f
-    ```
+## 🤝 Acknowledgements
+- University of Florida  
+- HiPerGator Computing  
+- Open-source community  
