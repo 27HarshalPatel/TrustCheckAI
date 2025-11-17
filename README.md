@@ -139,13 +139,15 @@ Access:
 ---
 
 ## 🧪 Usage Workflow
-1. Upload CSV  
-2. Run fairness analysis  
-3. Train models  
-4. View LIME 
-5. Generate PDF  
-6. Monitor in Grafana  
-7. Receive alerts if Accuracy falls below 70%
+1. Upload CSV
+2. Select "Protected" Attribute
+3. Select "Target" Attribute
+4. Run fairness analysis  
+5. Train models  
+6. View LIME 
+7. Generate PDF  
+8. Monitor in Grafana  
+9. Receive alerts if Accuracy falls below 70%
 
 ---
 
