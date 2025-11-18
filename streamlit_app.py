@@ -135,6 +135,8 @@ def download_and_load_compas():
 def preprocess_uploaded_data(df, protected_attribute, target_variable):
     """Generic preprocessing for uploaded datasets."""
     df_clean = df.dropna().copy()
+    if df_clean.empty:
+        return df_clean
 
     # Convert protected attribute to binary
     unprivileged_value = df_clean[protected_attribute].value_counts().idxmin()
@@ -351,6 +353,9 @@ def main():
             ANALYSIS_COUNTER.inc()
 
             df_processed = preprocess_uploaded_data(df, protected_attribute, target_variable)
+            if df_processed.empty:
+                st.error("The dataset is empty after removing rows with missing values. Please upload a dataset with more data.")
+                return
             initial_report, (spd, di) = initial_bias_analysis(df_processed, protected_attribute, target_variable)
 
             performance_report, artifacts = train_and_evaluate_model(df_processed, protected_attribute, target_variable)
