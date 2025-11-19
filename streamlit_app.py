@@ -23,6 +23,8 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score, classification_report, roc_auc_score
 import lime
 import lime.lime_tabular
@@ -61,7 +63,7 @@ def make_pdf_report(initial_report_text: str,
     story.append(Paragraph("Model Performance Report", styles["Heading2"]))
 
     # Ensure consistent column order if present
-    cols = [c for c in ["precision", "recall", "f1-score", "support"] if c in performance_df.columns]
+    cols = [c for c in ["precision", "recall", "f1-score"] if c in performance_df.columns]
     rows = [["label"] + cols]
     for idx, row in performance_df[cols].iterrows():
         # idx can be 'accuracy' row (with precision only). Convert to strings safely.
@@ -133,23 +135,80 @@ def download_and_load_compas():
     return compas_clean
 
 def preprocess_uploaded_data(df, protected_attribute, target_variable):
-    """Generic preprocessing for uploaded datasets."""
-    df_clean = df.dropna().copy()
+    """Generic preprocessing for uploaded datasets with safe missing-value handling."""
+    df_clean = df.copy()
 
-    # Convert protected attribute to binary
+    # 1. Ensuring required columns exist
+    if protected_attribute not in df_clean.columns or target_variable not in df_clean.columns:
+        return pd.DataFrame()
+
+    # 2. Drop rows only when protected attribute OR target is missing
+    df_clean = df_clean[
+        df_clean[protected_attribute].notna() &
+        df_clean[target_variable].notna()
+    ].copy()
+
+    if df_clean.empty:
+        return df_clean
+
+    # 3. Add missingness indicator features (helps with fairness analysis)
+    cols_with_missing = [c for c in df_clean.columns if df_clean[c].isna().any()]
+    for col in cols_with_missing:
+        df_clean[col + "_missing"] = df_clean[col].isna().astype(int)
+
+    # 4. Separate numeric and categorical features
+    numeric_cols = df_clean.select_dtypes(include='number').columns.tolist()
+    categorical_cols = df_clean.select_dtypes(include=['object', 'category', 'bool']).columns.tolist()
+
+    # Don’t impute protected attribute or target
+    for special in [protected_attribute, target_variable]:
+        if special in numeric_cols:
+            numeric_cols.remove(special)
+        if special in categorical_cols:
+            categorical_cols.remove(special)
+
+    # 5. Droping columns that are entirely missing
+    all_missing_num = [c for c in numeric_cols if df_clean[c].isna().all()]
+    if all_missing_num:
+        df_clean.drop(columns=all_missing_num, inplace=True)
+        numeric_cols = [c for c in numeric_cols if c not in all_missing_num]
+
+    all_missing_cat = [c for c in categorical_cols if df_clean[c].isna().all()]
+    if all_missing_cat:
+        df_clean.drop(columns=all_missing_cat, inplace=True)
+        categorical_cols = [c for c in categorical_cols if c not in all_missing_cat]
+
+    # 6. Imputing remaining missing values
+    if numeric_cols:
+        num_imputer = SimpleImputer(strategy='median')
+        df_clean[numeric_cols] = num_imputer.fit_transform(df_clean[numeric_cols])
+
+    if categorical_cols:
+        cat_imputer = SimpleImputer(strategy='most_frequent')
+        df_clean[categorical_cols] = cat_imputer.fit_transform(df_clean[categorical_cols])
+
+    # 7. Converting protected attribute to binary (unprivileged = minority group)
     unprivileged_value = df_clean[protected_attribute].value_counts().idxmin()
     df_clean[protected_attribute] = (df_clean[protected_attribute] != unprivileged_value).astype(int)
 
-    # Convert target variable to binary
+    # 8. Converting target variable to binary (favorable = majority class)
     favorable_value = df_clean[target_variable].value_counts().idxmax()
     df_clean[target_variable] = (df_clean[target_variable] == favorable_value).astype(int)
 
-    # Encode all object-type columns
-    for col in df_clean.select_dtypes(include=['object']).columns:
+    # 9. Encoding remaining categorical features
+    for col in df_clean.select_dtypes(include=['object', 'category']).columns:
+        if col in [protected_attribute, target_variable]:
+            continue
         le = LabelEncoder()
         df_clean[col + '_encoded'] = le.fit_transform(df_clean[col])
 
+    # 10. FINAL SAFETY CHECK – making sure target really is binary
+    unique_y = sorted(df_clean[target_variable].unique())
+    if not set(unique_y).issubset({0, 1}):
+        raise ValueError(f"Target variable not binary after preprocessing. Got labels: {unique_y}")
+
     return df_clean
+
 
 
 def initial_bias_analysis(df, protected_attribute, target_variable):
@@ -240,6 +299,7 @@ def train_and_evaluate_model(df, protected_attribute, target_variable):
                 best_model_name = name
                 report = classification_report(y_test, y_pred, output_dict=True, zero_division=0)
                 best_report = pd.DataFrame(report).transpose()
+                
                 best_artifacts = {
                     "model": best_model, "scaler": scaler, "X_train_scaled": X_train_scaled,
                     "X_test_scaled": X_test_scaled, "X_test": X_test, "y_test": y_test,
@@ -351,6 +411,9 @@ def main():
             ANALYSIS_COUNTER.inc()
 
             df_processed = preprocess_uploaded_data(df, protected_attribute, target_variable)
+            if df_processed.empty:
+                st.error("The dataset is empty after removing rows with missing values. Please upload a dataset with more data.")
+                return
             initial_report, (spd, di) = initial_bias_analysis(df_processed, protected_attribute, target_variable)
 
             performance_report, artifacts = train_and_evaluate_model(df_processed, protected_attribute, target_variable)
