@@ -12,6 +12,7 @@ It provides real-time dashboards, fairness metrics, model explainability (LIME),
 
 ## 📑 Table of Contents
 - ✨ Features
+- 📚 Project Structure
 - 🧰 Technical Stack
 - 📚 Supported Datasets
 - 🏗 System Architecture
@@ -66,6 +67,27 @@ It provides real-time dashboards, fairness metrics, model explainability (LIME),
 - Grafana  
 - Docker Compose orchestration  
 
+---
+
+## 📚 Project Structure
+
+```text
+TrustCheckAI/
+├── .ipynb_checkpoints/        # Auto-generated Jupyter checkpoints
+├── __pycache__/               # Python bytecode cache
+├── .DS_Store                  # macOS system metadata
+├── Dockerfile                 # Docker build instructions
+├── Final Report.pdf           # Final Project Report Template 
+├── README.md                  # Project documentation
+├── TrustCheckAI-Demo.mp4      # Full application demo video
+├── TrustCheckAI-demo.gif      # GIF preview for README
+├── compas-scores-two-years.csv # COMPAS dataset for fairness analysis
+├── docker-compose.yml         # Multi-service orchestration (Streamlit + Prometheus + Grafana)
+├── feedback.log               # Logs for user feedback & events
+├── prometheus.yml             # Prometheus scraping config
+├── requirements.txt           # Python dependencies
+└── streamlit_app.py           # Main Streamlit application
+```
 ---
 
 ## 🧰 Technical Stack
