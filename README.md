@@ -1,7 +1,7 @@
 # 🚀 TrustCheckAI — Bias and Compliance Detaction Platform
 
 <p align="center">
-  <img src="./TrustCheckAI-demo.gif" width="650">
+  <a href="./TrustCheckAI-Launch-video.mp4"><img src="./TrustCheckAI-demo.gif" width="650" alt="TrustCheckAI demo: 77.78% accuracy, Bias Check Fail"></a>
 </p>
 
 TrustCheckAI is an end-to-end bias and compliance auditing, explainability, and model-monitoring platform designed to evaluate bias, mitigate discrimination, explain model decisions, and continuously monitor deployed machine learning systems using Prometheus & Grafana.
@@ -268,9 +268,8 @@ Includes fairness metrics and performance summary.
 
 ## 🎥 Demonstration
 
-<p align="center">
-  <img src="./TrustCheckAI-demo.gif" width="700">
-</p>
+- [20-second launch video (with sound)](./TrustCheckAI-Launch-video.mp4)
+- [Full walkthrough: upload → bias check → LIME → PDF → Grafana → Slack alerts](./TrustCheckAI-Demo.mp4)
 
 ---
 
